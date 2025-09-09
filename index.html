@@ -13,43 +13,60 @@
 <body>
   <div class="container mt-5">
     <div class="row">
-      <h1 class="mb-4">PEDRA, PAPEL E TESOURA</h1>
+      <h1 class="mb-4 text-center">PEDRA, PAPEL E TESOURA</h1>
 
       <div class="col text-center">
-        <div class="btn-group" role="group" aria-label="Escolhas">
-          <button class="btn btn-primary m-2" onclick="jogar('pedra')">PEDRA</button>
-          <button class="btn btn-success m-2" onclick="jogar('papel')">PAPEL</button>
-          <button class="btn btn-danger m-2" onclick="jogar('tesoura')">TESOURA</button>
+        <div class="btn-group mb-4" role="group" aria-label="Escolhas">
+          <button class="btn btn-primary" onclick="jogar('pedra')">PEDRA</button>
+          <button class="btn btn-success" onclick="jogar('papel')">PAPEL</button>
+          <button class="btn btn-danger" onclick="jogar('tesoura')">TESOURA</button>
         </div>
 
-        <div class="mt-4" id="resultado"></div>
+        <div class="mb-4">
+          <span class="badge bg-success fs-6">Vitórias: <span id="vitorias">0</span></span>
+          <span class="badge bg-warning text-dark fs-6">Empates: <span id="empates">0</span></span>
+          <span class="badge bg-danger fs-6">Derrotas: <span id="derrotas">0</span></span>
+        </div>
+
+        <div id="resultado"></div>
       </div>
     </div>
   </div>
 
   <script>
+    let vitoria = 0;
+    let empate = 0;
+    let derrota = 0;
+
     function jogar(escolhaJogador) {
       const opcoes = ['pedra', 'papel', 'tesoura'];
       const oponente = opcoes[Math.floor(Math.random() * 3)];
 
-      let resultado = `
+      let mensagem = `
         <p><strong>SUA ESCOLHA:</strong> ${escolhaJogador}</p>
         <p><strong>SEU OPONENTE:</strong> ${oponente}</p>
       `;
 
       if (escolhaJogador === oponente) {
-        resultado += `<h3 class="text-warning">EMPATE</h3>`;
+        mensagem += `<h3 class="text-warning">EMPATE</h3>`;
+        empate++;
       } else if (
         (escolhaJogador === 'pedra' && oponente === 'tesoura') ||
         (escolhaJogador === 'papel' && oponente === 'pedra') ||
         (escolhaJogador === 'tesoura' && oponente === 'papel')
       ) {
-        resultado += `<h3 class="text-success">VOCÊ VENCEU!</h3>`;
+        mensagem += `<h3 class="text-success">VOCÊ VENCEU!</h3>`;
+        vitoria++;
       } else {
-        resultado += `<h3 class="text-danger">VOCÊ PERDEU!</h3>`;
+        mensagem += `<h3 class="text-danger">VOCÊ PERDEU!</h3>`;
+        derrota++;
       }
 
-      document.getElementById('resultado').innerHTML = resultado;
+      document.getElementById('vitorias').innerText = vitoria;
+      document.getElementById('empates').innerText = empate;
+      document.getElementById('derrotas').innerText = derrota;
+
+      document.getElementById('resultado').innerHTML = mensagem;
     }
   </script>
 </body>
